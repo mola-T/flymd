@@ -1,10 +1,12 @@
+var pointIdentifier = "fLyMd-mAkEr"
+var markdownFilename = "flymd.md"
 var gfmMode = false;
 var autoRefresh = true;
 var autoScroll = true;
 
 function getNewContent()
 {
-    jQuery.get("README.md", undefined, function(data) {
+    jQuery.get(markdownFilename, undefined, function(data) {
         var converter = new showdown.Converter();
         if (gfmMode)
         {
@@ -12,14 +14,14 @@ function getNewContent()
             converter.setOption('tables', 'true');
             converter.setOption('taskliststables', 'true');
         }
-        $('#replacer').html(converter.makeHtml(data).replace('fLyMd-mAkER', '<span id="flymd-marker"></span>'));
+        $('#replacer').html(converter.makeHtml(data).replace(pointIdentifier, '<span id="flymd-marker"></span>'));
         $(".flymd-static #GFMize").css("color", "#737373");
     }, "html");
 }
 
 function insertGFMContent()
 {
-    jQuery.get("README.md", undefined, function(data) {
+    jQuery.get(markdownFilename, undefined, function(data) {
 
         $.ajax({
             type: "POST",
