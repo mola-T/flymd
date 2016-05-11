@@ -16,7 +16,7 @@ function getNewContent()
             converter.setOption('taskliststables', 'true');
         }
         $('#replacer').html(converter.makeHtml(data).replace(pointIdentifier, pointHtmlIdentifier));
-        /// console.log($('#replacer').html ());
+        var marker = $("#flymd-marker");
         if (autoScroll)
             scrollToMaker();
         $("#flymd-marker").html("");
@@ -36,7 +36,10 @@ function insertGFMContent()
             data: data,
             contentType: "text/plain",
             success: function(data){
-                $( "#replacer" ).html(data);
+                $( "#replacer" ).html(data.replace(pointIdentifier, pointHtmlIdentifier));
+                if (autoScroll)
+                    scrollToMaker();
+                $("#flymd-marker").html("");
                 $(".flymd-static #GFMize").css("color", "#00cc44");
             }, 
             error: function(jqXHR, textStatus, error){
@@ -70,8 +73,8 @@ function scrollToMaker()
         var eltOffset = elt.offset().top;
         var windowHeight = $(window).height();
         var offset = eltOffset - (3 * windowHeight / 4);
-        console.log($(window).scrollTop());
-        console.log(offset);
+        /// console.log($(window).scrollTop());
+        /// console.log(offset);
         if (Math.abs($(window).scrollTop() - offset) > 3)
             window.scrollTo(0, offset);
     }
