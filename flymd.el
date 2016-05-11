@@ -1,11 +1,11 @@
-;;; flymd.el --- flymd   -*- lexical-binding: t; -*-
+;;; flymd.el --- On the fly markdown preview -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2016 Mola-T
 ;; Author: Mola-T <Mola@molamola.xyz>
 ;; URL: https://github.com/mola-T/flymd
 ;; Version: 1.0.0
-;; Package-Requires: ()
-;; Keywords:
+;; Package-Requires: ((cl-lib "0.5"))
+;; Keywords: markdown, convenience
 ;;
 ;;; License:
 ;; This file is NOT part of GNU Emacs.
@@ -26,9 +26,19 @@
 ;; Boston, MA 02110-1301, USA.
 ;;
 ;;; Commentary:
-;; 
+;;
+;; flymd is a on the fly markdown preview package.
+;; It is super, super, super easy to use.
+;; Open a markdown file, M-x flymd-flyit
+;; The markdown file is opened in your favourite browser.
+;; When you finished, close the browser page and kill the markdwon buffer.
+;;
+;; Please go https://github.com/mola-T/flymd for more info
 ;;
 ;;; code:
+(require 'cl-lib)
+(require 'browse-url)
+
 (defgroup flymd nil
   "Group for flymd"
   :group 'markdown
@@ -108,7 +118,7 @@ If it is not defined, `browse-url-default-browser' is used."
     (with-temp-buffer
       (insert-buffer-substring-no-properties buffer)
       (goto-char point)
-      (when (string-match-p "\\````" (thing-at-point 'line t))
+      (when (string-match-p "\\````" (or (thing-at-point 'line t) ""))
         (forward-line))
       (end-of-line)
       (insert flymd-point-identifier)
