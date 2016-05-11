@@ -1,4 +1,5 @@
 var pointIdentifier = "fLyMd-mAkEr"
+var pointHtmlIdentifier = "<span id=\"flymd-marker\">flymd-marker</span>";
 var markdownFilename = "flymd.md"
 var gfmMode = false;
 var autoRefresh = true;
@@ -14,7 +15,11 @@ function getNewContent()
             converter.setOption('tables', 'true');
             converter.setOption('taskliststables', 'true');
         }
-        $('#replacer').html(converter.makeHtml(data).replace(pointIdentifier, '<span id="flymd-marker"></span>'));
+        $('#replacer').html(converter.makeHtml(data).replace(pointIdentifier, pointHtmlIdentifier));
+        /// console.log($('#replacer').html ());
+        if (autoScroll)
+            scrollToMaker();
+        $("#flymd-marker").html("");
         $(".flymd-static #GFMize").css("color", "#737373");
     }, "html");
 }
@@ -45,11 +50,7 @@ function refresh()
 {
 	setTimeout(function() {
         if (autoRefresh)
-        {
             getNewContent();
-            if (autoScroll)
-                scrollToMaker();
-        }
 	    refresh();
 	}, 300);
 }
@@ -63,9 +64,17 @@ function openGFMPage()
 
 function scrollToMaker()
 {
-    var elt = document.getElementById("flymd-marker");
-    if (elt != null)
-        elt.scrollIntoView(true);
+    var elt = $("#flymd-marker");
+    if (elt != null && elt.length != 0)
+    {
+        var eltOffset = elt.offset().top;
+        var windowHeight = $(window).height();
+        var offset = eltOffset - (3 * windowHeight / 4);
+        console.log($(window).scrollTop());
+        console.log(offset);
+        if (Math.abs($(window).scrollTop() - offset) > 3)
+            window.scrollTo(0, offset);
+    }
 }
 
 $(document).ready(function() {
@@ -94,9 +103,6 @@ $(document).ready(function() {
                                               $(".flymd-static #GFMmode").css("color", "#00cc44"):
                                               $(".flymd-static #GFMmode").css("color", "#ff4d4d");
                                       });
-    
     getNewContent();
-    if (autoScroll)
-        scrollToMaker();
     refresh();
 });
