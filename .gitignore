@@ -4,8 +4,4 @@
 # Packaging
 .cask
 
-flymd.md
-test/flymd.html
-
-# Temp
-README.md
+Resource/*.md
