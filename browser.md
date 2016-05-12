@@ -26,7 +26,7 @@ There are two solutions:
     (setq flymd-browser-open-function 'my-flymd-browser-function)
    ```
 
-- ** **Solution 2**: Still using goolge chrome. But you need to kill all google chrome process before using `flymd-flyit`. This is not recommended.
+- **Solution 2**: Still using goolge chrome. But you need to kill all google chrome process before using `flymd-flyit`. This is not recommended.
 
    Add this to your `init` file.
 

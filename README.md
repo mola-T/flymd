@@ -54,6 +54,7 @@ If you close the page accidentally, <kbd>M-x</kbd> `flymd-flyit` to reopen the p
 ### Browser Compatibility
 
 Please see [here](browser.md) for browser compatibility issue.
+
 It will be grateful if you can report your browser compatibility or solution throught pull request.
 
 ## Contacts
