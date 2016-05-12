@@ -31,13 +31,13 @@ There are two solutions:
    Add this to your `init` file.
 
    ```elisp
-    (defun my-flymd-flymd-browser-function (url)
+    (defun my-flymd-browser-function (url)
       (let* ((process-environment (browse-url-process-environment)))
         (apply 'start-process
                (concat "google-chrome " url) nil
                "google-chrome"
                (list "--new-window" "--allow-file-access-from-files" url))))
-    (setq flymd-browser-open-function nil)
+    (setq flymd-browser-open-function 'my-flymd-browser-function)
 
    ```
 
