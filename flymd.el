@@ -61,11 +61,6 @@ If it is not defined, `browse-url-default-browser' is used."
   :group 'flymd
   :type 'function)
 
-(defcustom flymd-browser-open-arg nil
-  "If you use chrome, it needs to set to \"--allow-file-access-from-files\"."
-  :group 'flymd
-  :type 'string)
-
 (defvar flymd-markdown-regex nil
   "A concatenated verion of `flymd-markdown-file-type'.")
 
@@ -134,8 +129,7 @@ If it is not defined, `browse-url-default-browser' is used."
       (if flymd-browser-open-function
           (funcall flymd-browser-open-function
                    (concat (file-name-directory (buffer-file-name buffer)) flymd-preview-html-filename))
-        (browse-url (concat (file-name-directory (buffer-file-name buffer)) flymd-preview-html-filename)
-                    flymd-browser-open-arg))
+        (browse-url (concat (file-name-directory (buffer-file-name buffer)) flymd-preview-html-filename)))
     (error "Opps! flymd cannot create preview markdown flymd.md")))
 
 (defun flymd-unflyit ()
