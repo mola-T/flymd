@@ -10,7 +10,9 @@ On the fly markdown preview.
 
 ### Demostration
 
-Coming soon...
+<a href="https://www.youtube.com/watch?v=xMVe9Ka-CDI"
+target="_blank"><img src="image/Emacs_On_the_fly_markdown_preview.png" 
+alt="Emacs Multithread Demo on Youtube" width="960" height="540" border="10" /></a>
 
 ### Features
 
