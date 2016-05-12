@@ -85,7 +85,7 @@ If it is not defined, `browse-url-default-browser' is used."
   (interactive)
   (unless flymd-markdown-regex
     (setq flymd-markdown-regex (mapconcat 'identity flymd-markdown-file-type "\\|")))
-  (if (string-match-p flymd-markdown-regex (buffer-file-name))
+  (if (string-match-p flymd-markdown-regex (or (buffer-file-name) ""))
       (let ((working-buffer (current-buffer))
             (working-point (point)))
         (flymd-copy-html (file-name-directory (buffer-file-name working-buffer)))
