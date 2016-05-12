@@ -8,7 +8,7 @@ On the fly markdown preview.
 - Emacs
 - A modern browser
 
-### Demostration
+### Demostration (Link to youtube)
 
 <a href="https://www.youtube.com/watch?v=xMVe9Ka-CDI"
 target="_blank"><img src="image/Emacs_On_the_fly_markdown_preview.png" 
