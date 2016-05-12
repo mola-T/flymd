@@ -25,12 +25,6 @@ Coming soon...
 
 ``` emacs-lisp
 (require 'flymd)
-
-;; If you use firefox as your default browser, no extra setting.
-;; If you use google chrome as your default browser, add this:
-(setq flymd-browser-open-arg "--allow-file-access-from-files")
-
-;; I did not try other browsers, please report if any errors occur.
 ```
 
 ### Usage
@@ -56,6 +50,11 @@ If you close the page accidentally, <kbd>M-x</kbd> `flymd-flyit` to reopen the p
   Codeblock should be correctly highlight after action.
 
   Notice that github API allows only 60 accesses per hour.
+
+### Browser Compatibility
+
+Please see [here](browser.md) for browser compatibility issue.
+It will be grateful if you can report your browser compatibility or solution throught pull request.
 
 ## Contacts
 
