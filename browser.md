@@ -5,7 +5,7 @@
 | Firefox | OK | 
 | Chrome | Not OK | [Solution](#user-content-chrome)|
 | IE | Unknown | |
-| Safari | Unkown | |
+| Safari | Unknown | |
 
 ### Chrome
 
