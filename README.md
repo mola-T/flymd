@@ -47,7 +47,9 @@ If you close the page accidentally, <kbd>M-x</kbd> `flymd-flyit` to reopen the p
 
   Render the page in GFM style (autolink, table and tasklist) if enabled.
 
-- GFMize ------------ Render the page by github API
+- MathJaxize (experimental) - On click rendering MathJax.
+
+- GFMize ------------ On click rendering the page by github API
 
   Codeblock should be correctly highlight after action.
 
@@ -58,6 +60,10 @@ If you close the page accidentally, <kbd>M-x</kbd> `flymd-flyit` to reopen the p
 Please see [here](browser.md) for browser compatibility issue.
 
 It will be grateful if you can report your browser compatibility or solution throught pull request.
+
+### Change Log
+
+- 1.1.0 - Add MathJaxize; Add `flymd-close-buffer-delete-temp-files` customize option.
 
 ## Contacts
 
