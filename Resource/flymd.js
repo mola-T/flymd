@@ -1,6 +1,12 @@
-var pointIdentifier = "fLyMd-mAkEr"
+var pointIdentifier = "fLyMd-mAkEr";
 var pointHtmlIdentifier = "<span id=\"flymd-marker\">flymd-marker</span>";
-var markdownFilename = "flymd.md"
+var markdownFilename = "flymd.md";
+
+/// This is the script for MathJax
+/// Source
+/// https://www.mathjax.org/
+var MathJaxScript = "<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"></script>";
+
 var gfmMode = false;
 var autoRefresh = true;
 var autoScroll = true;
@@ -16,11 +22,11 @@ function getNewContent()
             converter.setOption('taskliststables', 'true');
         }
         $('#replacer').html(converter.makeHtml(data).replace(pointIdentifier, pointHtmlIdentifier));
-        var marker = $("#flymd-marker");
         if (autoScroll)
             scrollToMaker();
         $("#flymd-marker").html("");
         $(".flymd-static #GFMize").css("color", "#737373");
+        $(".flymd-static #MathJaxize").css("color", "#737373");
     }, "html");
 }
 
@@ -49,6 +55,32 @@ function insertGFMContent()
     }, "html");
 }
 
+function insertMathJaxContent()
+{
+    jQuery.get(markdownFilename, undefined, function(data) {
+
+        var converter = new showdown.Converter();
+        if (gfmMode)
+        {
+            converter.setOption('simplifiedAutoLink', 'true');
+            converter.setOption('tables', 'true');
+            converter.setOption('taskliststables', 'true');
+        }
+        var converted = converter.makeHtml(data).replace(pointIdentifier, pointHtmlIdentifier);
+        converted = MathJaxScript + converted;
+        $('#replacer').html(converted);
+
+        if (autoScroll)
+            scrollToMaker();
+        $("#flymd-marker").html("");
+
+        $(".flymd-static #MathJaxize").css("color", "#00cc44");
+        
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        
+    }, "html");
+}
+
 function refresh()
 {
 	setTimeout(function() {
@@ -56,13 +88,6 @@ function refresh()
             getNewContent();
 	    refresh();
 	}, 300);
-}
-
-function openGFMPage()
-{
-    autoRefresh = false;
-    $(".flymd-static #AutoRefresh").css("color", "#ff4d4d");
-    insertGFMContent();
 }
 
 function scrollToMaker()
@@ -73,8 +98,6 @@ function scrollToMaker()
         var eltOffset = elt.offset().top;
         var windowHeight = $(window).height();
         var offset = eltOffset - (3 * windowHeight / 4);
-        /// console.log($(window).scrollTop());
-        /// console.log(offset);
         if (Math.abs($(window).scrollTop() - offset) > 3)
             window.scrollTo(0, offset);
     }
@@ -91,7 +114,7 @@ $(document).ready(function() {
                          });
     
 
-    $('.flymd-static #AutoScroll').click(function(e)
+    $('.flymd-static #AutoScroll').click(function()
                                          {
                                              autoScroll = !autoScroll;
                                              autoScroll ?
@@ -99,13 +122,30 @@ $(document).ready(function() {
                                                  $(".flymd-static #AutoScroll").css("color", "#ff4d4d");
                                          });
 
-    $('.flymd-static #GFMmode').click(function(e)
+    $('.flymd-static #GFMmode').click(function()
                                       {
                                           gfmMode = !gfmMode;
                                           gfmMode ?
                                               $(".flymd-static #GFMmode").css("color", "#00cc44"):
                                               $(".flymd-static #GFMmode").css("color", "#ff4d4d");
                                       });
+    
+    $('.flymd-static #GFMize').click(function()
+                                     {
+                                         autoRefresh = false;
+                                         $(".flymd-static #AutoRefresh").css("color", "#ff4d4d");
+                                         $(".flymd-static #MathJaxize").css("color", "#737373");
+                                         insertGFMContent();
+                                     });
+
+    $('.flymd-static #MathJaxize').click(function()
+                                     {
+                                         autoRefresh = false;
+                                         $(".flymd-static #AutoRefresh").css("color", "#ff4d4d");
+                                         $(".flymd-static #GFMize").css("color", "#737373");
+                                         insertMathJaxContent();
+                                     });
+    
     getNewContent();
     refresh();
 });

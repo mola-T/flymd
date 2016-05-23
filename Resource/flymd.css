@@ -32,6 +32,10 @@
   border: 0px; 
 } 
 
+.flymd-static #MathJaxize {
+    color: #737373;
+}
+
 .flymd-static #GFMize {
     color: #737373;
 }
