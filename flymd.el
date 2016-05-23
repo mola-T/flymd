@@ -61,6 +61,12 @@ If it is not defined, `browse-url-default-browser' is used."
   :group 'flymd
   :type 'function)
 
+(defcustom flymd-close-buffer-delete-temp-files nil
+  "If this is non-nil, flymd.md and flymd.html will be deleted
+upon markdown buffer killed."
+  :group 'flymd
+  :type 'boolean)
+
 (defvar flymd-markdown-regex nil
   "A concatenated verion of `flymd-markdown-file-type'.")
 
@@ -132,12 +138,23 @@ If it is not defined, `browse-url-default-browser' is used."
         (browse-url (concat (file-name-directory (buffer-file-name buffer)) flymd-preview-html-filename)))
     (error "Opps! flymd cannot create preview markdown flymd.md")))
 
+(defsubst flymd-delete-file-maybe (path)
+  "Delete flymd temp file under PATH if file exists."
+  (when flymd-close-buffer-delete-temp-files
+    (when (file-exists-p (concat path flymd-preview-md-filename))
+      (delete-file (concat path flymd-preview-md-filename)))
+    (when (file-exists-p (concat path flymd-preview-html-filename))
+      (delete-file (concat path flymd-preview-html-filename)))))
+
 (defun flymd-unflyit ()
   "Untrack a markdown buffer in `flymd-markdown-buffer-list'."
-  (setq flymd-markdown-buffer-list (remq (current-buffer) flymd-markdown-buffer-list))
-  (unless flymd-markdown-buffer-list
-    (ignore-errors (cancel-timer flymd-timer))
-    (setq flymd-timer nil)))
+  (when (buffer-file-name)
+      (setq flymd-markdown-buffer-list (remq (current-buffer) flymd-markdown-buffer-list))
+    (flymd-delete-file-maybe (file-name-directory (buffer-file-name)))
+    (unless flymd-markdown-buffer-list
+      (when (timerp flymd-timer)
+       (cancel-timer flymd-timer))
+    (setq flymd-timer nil))))
 
 (provide 'flymd)
 ;;; flymd.el ends here
