@@ -3,7 +3,7 @@
 ;; Copyright (C) 2016 Mola-T
 ;; Author: Mola-T <Mola@molamola.xyz>
 ;; URL: https://github.com/mola-T/flymd
-;; Version: 1.0.0
+;; Version: 1.1.0
 ;; Package-Requires: ((cl-lib "0.5"))
 ;; Keywords: markdown, convenience
 ;;
