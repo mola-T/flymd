@@ -1,0 +1,53 @@
+.markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+}
+
+.flymd-static ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: fixed; 
+    bottom: 10%;
+    right: 1%; 
+}
+
+.flymd-static input[type="button"] {
+    font-weight: bold;
+    font-size: 14px;
+    height: 50px;
+    width: 100%;
+    text-align: right;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.flymd-static input[type="button"]::-moz-focus-inner { 
+  border: 0px; 
+} 
+
+.flymd-static #MathJaxize {
+    color: #737373;
+}
+
+.flymd-static #GFMize {
+    color: #737373;
+}
+
+.flymd-static #GFMmode {
+    color: #ff4d4d;
+}
+
+.flymd-static #AutoRefresh {
+    color: #00cc44;
+}
+
+.flymd-static #AutoScroll {
+    color: #00cc44;
+}
