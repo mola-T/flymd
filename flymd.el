@@ -61,6 +61,12 @@ If it is not defined, `browse-url-default-browser' is used."
   :group 'flymd
   :type 'function)
 
+(defcustom flymd-output-directory nil
+  "The directory where flymd output files will be stored.
+If nil, the input file directory is used."
+  :group 'flymd
+  :type 'directory)
+
 (defcustom flymd-close-buffer-delete-temp-files nil
   "If this is non-nil, flymd.md and flymd.html will be deleted
 upon markdown buffer killed."
@@ -94,7 +100,7 @@ upon markdown buffer killed."
   (if (string-match-p flymd-markdown-regex (or (buffer-file-name) ""))
       (let ((working-buffer (current-buffer))
             (working-point (point)))
-        (flymd-copy-html (file-name-directory (buffer-file-name working-buffer)))
+        (flymd-copy-html (flymd-get-output-directory working-buffer))
         (flymd-generate-readme working-buffer working-point)
         (flymd-open-browser working-buffer)
         (unless flymd-timer
@@ -109,7 +115,7 @@ upon markdown buffer killed."
     (copy-file (concat (file-name-directory (locate-library "flymd")) flymd-preview-html-filename)
           dir)
     (unless (file-exists-p (concat dir flymd-preview-html-filename))
-      (error "Opps! Cannot copy %s to working directory" flymd-preview-html-filename))))
+      (error "Oops! Cannot copy %s to %s" flymd-preview-html-filename dir))))
 
 (defun flymd-generate-readme (&optional buffer point)
   "Save working markdown file from BUFFER to flymd.md and add identifier to POINT."
@@ -125,18 +131,18 @@ upon markdown buffer killed."
       (insert flymd-point-identifier)
       (write-region (point-min)
                     (point-max)
-                    (concat (file-name-directory (buffer-file-name buffer)) flymd-preview-md-filename)
+                    (concat (flymd-get-output-directory buffer) flymd-preview-md-filename)
                     nil
                     'hey-why-are-you-inspecting-my-source-code?))))
 
 (defun flymd-open-browser (&optional buffer)
   "Open the browser with the flymd.html if BUFFER succeeded converting to flymd.md."
-  (if (file-readable-p (concat (file-name-directory (buffer-file-name buffer)) flymd-preview-md-filename))
+  (if (file-readable-p (concat (flymd-get-output-directory buffer) flymd-preview-md-filename))
       (if flymd-browser-open-function
           (funcall flymd-browser-open-function
-                   (concat (file-name-directory (buffer-file-name buffer)) flymd-preview-html-filename))
-        (browse-url (concat (file-name-directory (buffer-file-name buffer)) flymd-preview-html-filename)))
-    (error "Opps! flymd cannot create preview markdown flymd.md")))
+                   (concat (flymd-get-output-directory buffer) flymd-preview-html-filename))
+        (browse-url (concat (flymd-get-output-directory buffer) flymd-preview-html-filename)))
+    (error "Oops! flymd cannot create preview markdown flymd.md")))
 
 (defsubst flymd-delete-file-maybe (path)
   "Delete flymd temp file under PATH if file exists."
@@ -150,11 +156,22 @@ upon markdown buffer killed."
   "Untrack a markdown buffer in `flymd-markdown-buffer-list'."
   (when (buffer-file-name)
       (setq flymd-markdown-buffer-list (remq (current-buffer) flymd-markdown-buffer-list))
-    (flymd-delete-file-maybe (file-name-directory (buffer-file-name)))
+    (flymd-delete-file-maybe (flymd-get-output-directory (current-buffer)))
     (unless flymd-markdown-buffer-list
       (when (timerp flymd-timer)
        (cancel-timer flymd-timer))
     (setq flymd-timer nil))))
+
+(defun flymd-get-output-directory (buffer)
+  "Gets the correct output directory for flymd preview files."
+  (if flymd-output-directory
+      (progn
+        (setq output-dir (concat (file-name-as-directory flymd-output-directory)
+                                  (replace-regexp-in-string "[<>:\"/\\|?*]" "_" (file-name-directory
+                                                                                 (buffer-file-name buffer)))))
+        (make-directory output-dir t)
+        (file-name-as-directory output-dir))
+    (file-name-directory (buffer-file-name buffer))))
 
 (provide 'flymd)
 ;;; flymd.el ends here
