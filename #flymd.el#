@@ -1,4 +1,4 @@
-;;; flymd.el --- On the fly markdown preview -*- lexical-binding: t; -*-
+˘;;; flymd.el --- On the fly markdown preview -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2016 Mola-T
 ;; Author: Mola-T <Mola@molamola.xyz>
