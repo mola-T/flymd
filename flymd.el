@@ -3,7 +3,7 @@
 ;; Copyright (C) 2016 Mola-T
 ;; Author: Mola-T <Mola@molamola.xyz>
 ;; URL: https://github.com/mola-T/flymd
-;; Version: 1.1.0
+;; Version: 1.2.0
 ;; Package-Requires: ((cl-lib "0.5"))
 ;; Keywords: markdown, convenience
 ;;
@@ -63,7 +63,7 @@ If it is not defined, `browse-url-default-browser' is used."
 
 (defcustom flymd-output-directory nil
   "The directory where flymd output files will be stored.
-If nil, the input file directory is used."
+If nil, the working directory of the markdown file is used."
   :group 'flymd
   :type 'directory)
 
@@ -113,7 +113,7 @@ upon markdown buffer killed."
   "Copy flymd.html to working directory DIR if it is no present."
   (unless (file-exists-p (concat dir flymd-preview-html-filename))
     (copy-file (concat (file-name-directory (locate-library "flymd")) flymd-preview-html-filename)
-          dir)
+               dir)
     (unless (file-exists-p (concat dir flymd-preview-html-filename))
       (error "Oops! Cannot copy %s to %s" flymd-preview-html-filename dir))))
 
@@ -155,22 +155,22 @@ upon markdown buffer killed."
 (defun flymd-unflyit ()
   "Untrack a markdown buffer in `flymd-markdown-buffer-list'."
   (when (buffer-file-name)
-      (setq flymd-markdown-buffer-list (remq (current-buffer) flymd-markdown-buffer-list))
+    (setq flymd-markdown-buffer-list (remq (current-buffer) flymd-markdown-buffer-list))
     (flymd-delete-file-maybe (flymd-get-output-directory (current-buffer)))
     (unless flymd-markdown-buffer-list
       (when (timerp flymd-timer)
-       (cancel-timer flymd-timer))
-    (setq flymd-timer nil))))
+        (cancel-timer flymd-timer))
+      (setq flymd-timer nil))))
 
 (defun flymd-get-output-directory (buffer)
   "Gets the correct output directory for flymd preview files of BUFFER."
   (if flymd-output-directory
       (let ((output-dir (file-name-as-directory
-			 (concat (file-name-as-directory flymd-output-directory)
-				 (secure-hash 'md5 (buffer-file-name buffer))))))
-	(make-directory output-dir t)
-	output-dir)
-            (file-name-directory (buffer-file-name buffer))))
+                         (concat (file-name-as-directory flymd-output-directory)
+                                 (secure-hash 'md5 (buffer-file-name buffer))))))
+        (make-directory output-dir t)
+        output-dir)
+    (file-name-directory (buffer-file-name buffer))))
 
 (provide 'flymd)
 ;;; flymd.el ends here
