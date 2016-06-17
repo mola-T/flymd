@@ -57,8 +57,9 @@ If you close the page accidentally, <kbd>M-x</kbd> `flymd-flyit` to reopen the p
 
 ### Customize output directory
 
-Change the value of `flymd-output-directory` to change where flymd output files are stored.  If nil, the current
-directory will be used.
+Change the value of `flymd-output-directory` to change where flymd temp output files are stored.
+
+If `nil`, the current markdown working directory will be used.
 
 ### Browser Compatibility
 
