@@ -55,6 +55,11 @@ If you close the page accidentally, <kbd>M-x</kbd> `flymd-flyit` to reopen the p
 
   Notice that github API allows only 60 accesses per hour.
 
+### Customize output directory
+
+Change the value of `flymd-output-directory` to change where flymd output files are stored.  If nil, the current
+directory will be used.
+
 ### Browser Compatibility
 
 Please see [here](browser.md) for browser compatibility issue.
